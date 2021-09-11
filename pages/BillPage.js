@@ -2,7 +2,6 @@ import React,{useEffect, useState} from 'react'
 import { Button, StyleSheet, Text, TextInput, View, KeyboardAvoidingView, Keyboard, Platform, ScrollView, AsyncStorage } from 'react-native'
 import BillUser from '../content/BillUser'
 import RNPickerSelect from "react-native-picker-select";
-import { Header, useHeaderHeight } from '@react-navigation/stack';
 
 export default function BillPage({route ,navigation}) {
     const {item} = route.params
