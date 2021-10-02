@@ -7,13 +7,24 @@ import BillButton from '../content/BillButton'
 export default function Homescreen({navigation}) {
     const [bills,setBills] = useState([])
     const isFocused = useIsFocused()
+    async function deleteBill(name){
+        let temp = await AsyncStorage.getItem('bills')
+        temp=JSON.parse(temp)
+        for(let i = 0; i < temp.length ; ++i){
+            if(temp[i].name===name){
+                temp.splice(i,1);
+                i=temp.length;
+            }
+        }
+        setBills(temp);
+        temp=JSON.stringify(temp);
+        await AsyncStorage.setItem('bills',temp);
+    }
     useEffect(()=>{
         async function refresh(){
-            let temp = await AsyncStorage.getItem('bills');
+            let temp = await AsyncStorage.getItem('bills')
             temp=JSON.parse(temp)
             setBills(temp)
-            // console.log(bills);
-            //await AsyncStorage.clear()
         }
         refresh()
     },[isFocused])
@@ -24,7 +35,7 @@ export default function Homescreen({navigation}) {
                     <Create nav={navigation}></Create>
                     {bills!==null && bills.map((item,index)=>{
                         return(
-                            <BillButton nav={navigation} key={index} item={item} ></BillButton>
+                            <BillButton deletee = {deleteBill} nav={navigation} key={index} item={item} ></BillButton>
                         )
                     })}
                 </ScrollView>

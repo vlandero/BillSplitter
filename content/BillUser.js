@@ -1,8 +1,8 @@
 import React,{useState} from 'react'
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, Alert, Modal } from 'react-native'
 import InsetShadow from 'react-native-inset-shadow'
 
-function Dropdown({userOpened,user}){
+function Dropdown({userOpened,user,set}){
     if(userOpened!==user.name)
         return null
     let otherUsers = Object.keys(user.others)
@@ -11,19 +11,26 @@ function Dropdown({userOpened,user}){
     }
     return(
         <View style={styles.dropdownview}>
+            
             {otherUsers.map((item,index)=>{
                 return (
-                    <View style={styles.others} key={index}>
+                    <TouchableOpacity onPress={()=>{
+                        Alert.prompt("Change bill","Change how much "+item+" has to pay to "+user.name,async(text)=>{
+                            if(isNaN(text)||!text)
+                                return;
+                            await set(user.name,item,parseInt(text))
+                        })
+                    }} style={styles.others} key={index}>
                         <Text style={textStyle}>{item}</Text>
                         <Text style={textStyle}>{user.others[item]}</Text>
-                    </View>
+                    </TouchableOpacity>
                 )
             })}
         </View>
     )
 }
 
-export default function BillUser({user,open,setOpen}) {
+export default function BillUser({user,open,setOpen,set}) {
     return (
         <View>
             <TouchableOpacity onPress={()=>{
@@ -34,7 +41,7 @@ export default function BillUser({user,open,setOpen}) {
                 <Text style={styles.user}>{user.name}</Text>
             </TouchableOpacity>
             <InsetShadow containerStyle={{height:'auto'}}>
-                <Dropdown user={user} userOpened={open}></Dropdown>
+                <Dropdown set={set} user={user} userOpened={open}></Dropdown>
             </InsetShadow>
         </View>
     )

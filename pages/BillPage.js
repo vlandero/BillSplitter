@@ -29,7 +29,6 @@ export default function BillPage({route ,navigation}) {
         let sum = parseInt(text)
         let billCopy = bill
         let sumToAdd = Math.ceil(sum/(bill.users.length))
-        console.log(sumToAdd,sum,bill.users.length);
         let payerIndex
         for(let i = 0; i < billCopy.users.length; ++i)
             if(billCopy.users[i].name===payer){
@@ -56,12 +55,32 @@ export default function BillPage({route ,navigation}) {
         await AsyncStorage.setItem('bills',allBills)
         setPickedValue('')
         setText('')
-
+    }
+    const set = async (parent,child,value)=>{
+        
+        let temp = await AsyncStorage.getItem('bills')
+        temp = JSON.parse(temp);
+        let goodIndex
+        for(let i = 0; i<temp.length; ++i){
+            if(temp[i].name===bill.name){
+                goodIndex = i;
+                for(let j = 0; j < temp[i].users.length; ++j){
+                    if(temp[i].users[j].name===parent){
+                        temp[i].users[j].others[child] = value
+                        j=temp[i].users.length
+                    }
+                }
+                i=temp.length;
+            }
+        }
+        setBill(temp[goodIndex])
+        temp = JSON.stringify(temp)
+        await AsyncStorage.setItem("bills",temp);
     }
     return (
         <ScrollView  contentContainerStyle={styles.container}>
             {bill.users.map((user,index)=>{
-                return <BillUser open={open} setOpen={setOpen} user={user} key={index}></BillUser>
+                return <BillUser set={set} open={open} setOpen={setOpen} user={user} key={index}></BillUser>
             })}
             <View style={styles.input}>
                 <RNPickerSelect
