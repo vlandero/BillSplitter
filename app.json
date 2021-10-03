@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "billsplit",
-    "slug": "billsplit",
+    "name": "BillSplitter",
+    "slug": "BillSplitter",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

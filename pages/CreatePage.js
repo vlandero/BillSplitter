@@ -28,11 +28,11 @@ function Submit({isOpen,name,users,nav}) {
             }
             newBill = {
                 name:name,
-                users: objArr
+                users: objArr,
+                indexNumber: temp.length===0?0:temp[temp.length - 1] + 1
             }
             temp=[...temp,newBill]
             await AsyncStorage.setItem('bills', JSON.stringify(temp))
-            console.log(temp)
             nav.navigate('Home');
         }} title='create'></Button>
     )
@@ -45,6 +45,7 @@ export default function CreatePage({navigation}) {
     const [users,setUsers]=useState([])
     return (
         <View style={{flex:1,backgroundColor:'#c7c7c7'}}>
+            <Text style={styles.intro}>Make sure to name your people differently</Text>
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.choose}>Bill name</Text>
                 <TextInput value={name} onChangeText={text=>setName(text)} style={styles.textInputName}></TextInput>
@@ -135,8 +136,11 @@ const styles = StyleSheet.create({
         fontSize:20,
         flexGrow:1
     },
-    Xbutton:{
-    
+    intro:{
+        marginLeft:20,
+        marginRight:20,
+        textAlign:'center',
+        fontSize:20
     },
     x:{
         fontSize:20

@@ -10,7 +10,7 @@ export default function BillButton({item,nav,deletee}) {
             });
         }} style={styles.container}
         onLongPress={()=>{
-            Alert.alert("Delete","Are you sure you want to delete "+item.name+" bill?",[{text:'Delete',onPress:()=>{return deletee(item.name)}},{text:"Cancel"}]);
+            Alert.alert("Delete","Are you sure you want to delete "+item.name+" bill?",[{text:'Delete',onPress:()=>{return deletee(item.indexNumber)}},{text:"Cancel"}]);
         }}>
             <View style={styles.content}>
                 <Text style={styles.create}>{item.name}</Text>
@@ -27,7 +27,15 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         marginTop:35,
         borderRadius:40,
-        justifyContent:'center'
+        justifyContent:'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
     content:{
         marginLeft:40,

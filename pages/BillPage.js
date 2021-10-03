@@ -2,8 +2,15 @@ import React,{useEffect, useState} from 'react'
 import { Button, StyleSheet, Text, TextInput, View, KeyboardAvoidingView, Keyboard, Platform, ScrollView, AsyncStorage } from 'react-native'
 import BillUser from '../content/BillUser'
 import RNPickerSelect from "react-native-picker-select";
+import { 
+    Aclonica_400Regular,
+    useFonts
+  } from '@expo-google-fonts/aclonica'
 
 export default function BillPage({route ,navigation}) {
+    let [fontsLoaded] = useFonts({
+        Aclonica_400Regular
+    })
     const {item} = route.params
     const [bill,setBill] = useState(item)
     const [open,setOpen] = useState('')
@@ -62,7 +69,7 @@ export default function BillPage({route ,navigation}) {
         temp = JSON.parse(temp);
         let goodIndex
         for(let i = 0; i<temp.length; ++i){
-            if(temp[i].name===bill.name){
+            if(temp[i].indexNumber===bill.indexNumber){
                 goodIndex = i;
                 for(let j = 0; j < temp[i].users.length; ++j){
                     if(temp[i].users[j].name===parent){
@@ -77,11 +84,15 @@ export default function BillPage({route ,navigation}) {
         temp = JSON.stringify(temp)
         await AsyncStorage.setItem("bills",temp);
     }
+    if(!fontsLoaded)
+        return <Text>Loading fonts</Text>
     return (
-        <ScrollView  contentContainerStyle={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.container}>
+            <Text style={styles.intro}>Press on a name to see how much others have to pay to the selected person. You can press on other's names to change the amount to pay.</Text>
             {bill.users.map((user,index)=>{
                 return <BillUser set={set} open={open} setOpen={setOpen} user={user} key={index}></BillUser>
             })}
+            
             <View style={styles.input}>
                 <RNPickerSelect
                     placeholder={{
@@ -103,13 +114,9 @@ export default function BillPage({route ,navigation}) {
 
 const styles = StyleSheet.create({
     container:{
-        // flex:1,
-        // justifyContent: 'center',
         alignItems:'center',
         color:'#c7c7c7',
-        paddingBottom:400,
-        // borderWidth:2,
-        // borderColor:'black',
+        paddingBottom:400
     },
     input:{
         flexDirection:'row',
@@ -120,6 +127,7 @@ const styles = StyleSheet.create({
         minWidth:'80%',
         borderWidth:2,
         borderColor:'black',
+        fontFamily:'Aclonica_400Regular'
     },
     textinput:{
         maxWidth:'20%',
@@ -129,4 +137,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexGrow:1
     },
+    intro:{
+        marginLeft:20,
+        marginRight:20,
+        textAlign:'center',
+        fontSize:20
+    }
 })

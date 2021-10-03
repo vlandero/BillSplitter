@@ -7,11 +7,11 @@ import BillButton from '../content/BillButton'
 export default function Homescreen({navigation}) {
     const [bills,setBills] = useState([])
     const isFocused = useIsFocused()
-    async function deleteBill(name){
+    async function deleteBill(indx){
         let temp = await AsyncStorage.getItem('bills')
         temp=JSON.parse(temp)
         for(let i = 0; i < temp.length ; ++i){
-            if(temp[i].name===name){
+            if(temp[i].indexNumber===indx){
                 temp.splice(i,1);
                 i=temp.length;
             }
@@ -31,7 +31,9 @@ export default function Homescreen({navigation}) {
     return (
         // <ImageBackground>
             <SafeAreaView style={styles.container}>
-                <ScrollView contentContainerStyle={styles.container}>
+                <Text style={styles.text}>Press "Create" to create a new bill.</Text>
+                <Text style={styles.text}>Press and hold to delete a bill.</Text>
+                <ScrollView contentContainerStyle={styles.containerscroll}>
                     <Create nav={navigation}></Create>
                     {bills!==null && bills.map((item,index)=>{
                         return(
@@ -49,6 +51,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#c7c7c7',
         alignItems: 'center',
-        // justifyContent: 'center',
+    },
+    containerscroll:{
+        //backgroundColor: '#c7c7c7',
+        alignItems: 'center',
+        paddingBottom:30
+    },
+    text:{
+        fontSize:20,
+        marginBottom:12
     }
 })
