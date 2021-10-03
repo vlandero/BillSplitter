@@ -2,15 +2,9 @@ import React,{useEffect, useState} from 'react'
 import { Button, StyleSheet, Text, TextInput, View, KeyboardAvoidingView, Keyboard, Platform, ScrollView, AsyncStorage } from 'react-native'
 import BillUser from '../content/BillUser'
 import RNPickerSelect from "react-native-picker-select";
-import { 
-    Aclonica_400Regular,
-    useFonts
-  } from '@expo-google-fonts/aclonica'
+
 
 export default function BillPage({route ,navigation}) {
-    let [fontsLoaded] = useFonts({
-        Aclonica_400Regular
-    })
     const {item} = route.params
     const [bill,setBill] = useState(item)
     const [open,setOpen] = useState('')
@@ -84,8 +78,6 @@ export default function BillPage({route ,navigation}) {
         temp = JSON.stringify(temp)
         await AsyncStorage.setItem("bills",temp);
     }
-    if(!fontsLoaded)
-        return <Text>Loading fonts</Text>
     return (
         <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.container}>
             <Text style={styles.intro}>Press on a name to see how much others have to pay to the selected person. You can press on other's names to change the amount to pay.</Text>
@@ -127,7 +119,6 @@ const styles = StyleSheet.create({
         minWidth:'80%',
         borderWidth:2,
         borderColor:'black',
-        fontFamily:'Aclonica_400Regular'
     },
     textinput:{
         maxWidth:'20%',

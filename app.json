@@ -2,6 +2,7 @@
   "expo": {
     "name": "BillSplitter",
     "slug": "BillSplitter",
+    "owner": "vlanderoorg",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +28,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "A simple bill splitter which adds up every payment made in a group of friends and shows the amount of money they have to pay to each other.\nOnly works on iOS",
+    "githubUrl": "https://github.com/vlandero/BillSplitter-React-Native"
   }
 }
